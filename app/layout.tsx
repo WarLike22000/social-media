@@ -5,6 +5,7 @@ import './globals.css'
 import { ConfigProvider } from 'antd';
 import ToastProvider from './provider/ToastProvider';
 import AuthProvider from './provider/AuthProvider';
+import Navbar from './components/Sidebar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -37,7 +38,9 @@ export default function RootLayout({
             }}
           >
             <ToastProvider />
-            {children}
+            <main>
+              {children}
+            </main>
           </ConfigProvider>
         </AuthProvider>
       </body>
