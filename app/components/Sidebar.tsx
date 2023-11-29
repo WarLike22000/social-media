@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = async ({
   return (
     <div className="flex w-full h-[100vh]">
       <SidebarDesktop currentUser={currentUser} />
-      <SidebarMobile />
+      <SidebarMobile currentUser={currentUser} />
       {children}
     </div>
   )

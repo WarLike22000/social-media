@@ -5,7 +5,7 @@ import './globals.css'
 import { ConfigProvider } from 'antd';
 import ToastProvider from './provider/ToastProvider';
 import AuthProvider from './provider/AuthProvider';
-import Navbar from './components/Sidebar';
+import StyledComponentsRegistry from './lib/AntdRegistry';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -27,21 +27,23 @@ export default function RootLayout({
     <html lang="fa" dir='rtl'>
       <body className={`${vazir.variable} font-vazir`}>
         <AuthProvider>
-          <ConfigProvider
-            theme={{
-              token: {
-                // Seed Token
-                colorPrimary: '#5727A3',
-                borderRadius: 2,
-        
-              },
-            }}
-          >
-            <ToastProvider />
-            <main>
-              {children}
-            </main>
-          </ConfigProvider>
+          <StyledComponentsRegistry>
+            <ConfigProvider
+              theme={{
+                token: {
+                  // Seed Token
+                  colorPrimary: '#5727A3',
+                  borderRadius: 2,
+          
+                },
+              }}
+            >
+              <ToastProvider />
+              <main>
+                {children}
+              </main>
+            </ConfigProvider>
+          </StyledComponentsRegistry>
         </AuthProvider>
       </body>
     </html>

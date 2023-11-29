@@ -16,7 +16,7 @@ const AvatarBox: React.FC<AvatarBoxProps> = ({
             src={user?.image || "images/placeholder.jpg"}
         />
         <div>
-            <h3>
+            <h3 className='text-lg'>
                 {user?.name}
             </h3>
             <p className="text-sm text-neutral-500">

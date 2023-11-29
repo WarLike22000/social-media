@@ -1,15 +1,15 @@
 "use client";
 
 import React from 'react'
-import { Avatar } from 'antd'
+import Link from 'next/link';
+import AvatarBox from './AvatarBox';
+
 import { GrHomeRounded } from "react-icons/gr";
 import { LuImagePlus } from "react-icons/lu";
 import { HiOutlineLogout } from "react-icons/hi";
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import Link from 'next/link';
 import { User } from '@prisma/client';
-import AvatarBox from './AvatarBox';
 
 interface SidebarDesktopProps {
     currentUser?: User | null;
@@ -30,15 +30,15 @@ const SidebarDesktop: React.FC<SidebarDesktopProps> = ({
         },
         {
             label: "ایجاد پست",
-            icon: <LuImagePlus size={23} className={`group-hover:text-white ${pathname === "/createPost" ? "text-white" : "text-purple"}`} />,
-            href: "/createPost",
-            active: pathname === "/createPost"
+            icon: <LuImagePlus size={23} className={`group-hover:text-white ${pathname === "/create" ? "text-white" : "text-purple"}`} />,
+            href: "/create",
+            active: pathname === "/create"
         },
     ]
     
   return (
-    <div className="hidden sm:flex w-full max-w-[250px] bg-darkGray">
-        <div className="w-full p-3 text-white">
+    <div className="hidden md:flex h-[100vh] w-full max-w-[250px] bg-darkGray">
+        <div className="w-full h-full p-3 text-white">
             <div className="flex flex-col gap-5 h-full">
                 <AvatarBox user={currentUser} />
                 
