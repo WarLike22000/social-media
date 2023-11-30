@@ -58,7 +58,7 @@ const PostForm = () => {
   
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-4 lg:p-8 h-[100vh]">
-      <div className="space-y-4">
+      <div className="space-y-4 h-full">
         <div className="space-y-2">
           <label htmlFor="caption" className="text-white text-xl">توضیحات</label>
           <Controller
@@ -66,7 +66,7 @@ const PostForm = () => {
               <Input.TextArea
                 {...field}
                 disabled={isLoading}
-                className="bg-[#1f1f22] text-white rounded-md p-2 font-vazir "
+                className="bg-[#1f1f22] max-h-80 text-white rounded-md p-2 font-vazir "
                 id="caption"
               />
             )}
@@ -110,6 +110,7 @@ const PostForm = () => {
         <Button
           purple
           type="submit"
+          className="mb-20"
         >
           ایجاد پست
         </Button>

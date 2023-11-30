@@ -18,7 +18,7 @@ export default async function Home() {
   })
   
   return (
-    <div className="bg-dark w-full overflow-y-auto">
+    <div className="bg-dark w-full overflow-y-auto max-md:mb-16">
       {posts.map((post) => (
         <CardPost
           key={post.id}

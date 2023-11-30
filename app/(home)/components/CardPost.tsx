@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AvatarBox from '@/app/components/AvatarBox'
 import Image from 'next/image';
 
@@ -29,6 +29,15 @@ const CardPost: React.FC<CardPostProps> = ({
 }) => {
 
   const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true)
+  }, []);
+
+  if(!mounted) {
+    return null
+  }
+  
   const router = useRouter();
   
   const isLiked = currentUser?.likedPost.find((id) => id == post.id)
@@ -81,13 +90,15 @@ const CardPost: React.FC<CardPostProps> = ({
         </div>
 
         <div>
-          <Image
-            src={post.photo[0]}
-            width={700}
-            height={700}
-            className="object-cover rounded-lg"
-            alt='postImage'
-          />
+          {post.photo != 0 && (
+            <Image
+              src={post.photo[0]}
+              width={700}
+              height={700}
+              className="object-cover rounded-lg"
+              alt='postImage'
+            />
+          )}
         </div>
 
         <div className="flex items-center justify-between">
@@ -115,6 +126,16 @@ const CardPost: React.FC<CardPostProps> = ({
             {post.caption}
           </p>
         </div>
+
+        {post.tags && (
+          <div className="flex flex-wrap gap-2 items-center text-sky-500 cursor-pointer">
+            {post.tags.split("#").map((tag: string) => (
+              <p>
+                {tag}#
+              </p>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
