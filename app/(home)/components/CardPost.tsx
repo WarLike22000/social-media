@@ -1,4 +1,6 @@
-import React from 'react'
+"use client"
+
+import React, { useState } from 'react'
 import AvatarBox from '@/app/components/AvatarBox'
 import Image from 'next/image';
 
@@ -7,18 +9,71 @@ import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import { FiMessageCircle } from "react-icons/fi";
 import { Post, User } from '@prisma/client'
+import { Checkbox } from 'antd';
+import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface CardPostProps {
-  post: any
+  post: any;
+  currentUser: User | null;
+  users: User[]
+
 }
 
 const CardPost: React.FC<CardPostProps> = ({
-  post
+  post,
+  currentUser,
+  users
 }) => {
+
+  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  
+  const isLiked = currentUser?.likedPost.find((id) => id == post.id)
+  const postLiked = users.filter((user) => user.likedPost.find((id) => id == post.id))
+  const postSaved = users.filter((user) => user.saves.find((id) => id == post.id))
+  
+  const likeHandler = async () => {
+    try {
+      
+      if(!isLiked) {
+        await axios.patch(`/api/favorite/${post.id}`, {
+          status: "add"
+        })
+      } else {
+        await axios.patch(`/api/favorite/${post.id}`, {
+          status: "remove"
+        })
+      }
+       router.refresh()
+    } catch (error) {
+      toast.error("like failed")
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      if(postSaved.length === 0) {
+        await axios.patch(`/api/save/${post.id}`, {
+          status: "add"
+        })
+      } else {
+        await axios.patch(`/api/save/${post.id}`, {
+          status: "remove"
+        })
+      }
+       router.refresh()
+    } catch (error) {
+      toast.error("save failed")
+    }
+  }
+  
   return (
     <div className="text-white p-4 lg:p-8">
       <div className="border-[1px] rounded-lg space-y-3 bg-darkGray w-full max-w-2xl p-2 lg:p-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center px-2 justify-between">
           <AvatarBox user={post.user} />
           <div className="cursor-pointer text-white transition hover:text-purple">
             <GoKebabHorizontal size={22} />
@@ -36,16 +91,21 @@ const CardPost: React.FC<CardPostProps> = ({
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="text-white hover:text-purple transition cursor-pointer">
-            <IoBookmarkOutline size={23} />
+          <div onClick={handleSave} className="text-white hover:text-purple transition cursor-pointer">
+            {currentUser?.saves.includes(post.id) ? 
+            <IoBookmark size={23} /> : 
+            <IoBookmarkOutline size={23} />}
           </div>
           <div className="flex items-center gap-3">
             <FiMessageCircle className="text-white hover:text-sky-700 transition cursor-pointer" size={23} />
-            <div className="flex items-center gap-1">
+            <div onClick={likeHandler} className="flex items-center gap-1">
               <span className="text-sm">
-                {post.like}
+                {postLiked.length}
               </span>
-              <GoHeart size={23} className="text-white hover:text-rose-700 transition cursor-pointer" />
+               {currentUser?.likedPost.includes(post.id) ? 
+                <GoHeartFill  size={23} className="text-rose-700 transition cursor-pointer" />: 
+                <GoHeart  size={23} className="text-rose-700 transition cursor-pointer" />
+               }
             </div>
           </div>
         </div>

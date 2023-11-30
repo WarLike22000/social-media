@@ -17,7 +17,8 @@ model User {
   image          String?
   hashedPassword String?
 
-  saves     String[]
+  likedPost String[] @db.ObjectId
+  saves     String[] @db.ObjectId
   followers String[]
   following String[]
 
