@@ -4,30 +4,38 @@ import Button from "@/app/components/Button";
 import CountrySelect from "@/app/components/CountrySelect";
 import ImageUpload from "@/app/components/ImageUpload";
 import useCountries from "@/app/hooks/useCountries";
+import { Post } from "@prisma/client";
 import { Input } from "antd";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm, SubmitHandler, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
 
 
-const PostForm = () => {
+interface PostFormProps {
+  post?: Post | null
+}
 
+const PostForm: React.FC<PostFormProps> = ({
+  post
+}) => {
+
+  
   const {
-    register,
     handleSubmit,
     setValue,
     watch,
     control
   } = useForm<FieldValues>({
     defaultValues: {
-      caption: "",
-      photos: [],
-      location: "",
-      tags: ""
+      caption: post?.caption || "",
+      photos: post?.photo || [],
+      location: post?.location || "",
+      tags: post?.tags || ""
     }
   })
+
 
   const [isLoading, setIsLoading] = useState(false);
   const { getAll } = useCountries();
@@ -44,16 +52,34 @@ const PostForm = () => {
     try {
       setIsLoading(true);
 
-      await axios.post("/api/post", data)
-      router.refresh();
-      router.push("/");
-      toast.success("پست با موفقیت ایجاد شد")
+      if(post?.id) {
+        console.log("working")
+        await axios.patch(`/api/post/${post.id}`, data)
+        router.refresh();
+        router.push("/");
+        toast.success("پست با موفقیت ویرایش شد")
+      } else {
+        await axios.post("/api/post", data)
+        router.refresh();
+        router.push("/");
+        toast.success("پست با موفقیت ایجاد شد")
+      }
       
     } catch (error) {
       toast.error("مشکلی پیش آمده")
     } finally {
       setIsLoading(false);
     }
+  }
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true)
+  }, []);
+
+  if(!mounted) {
+    return null
   }
   
   return (
@@ -112,7 +138,7 @@ const PostForm = () => {
           type="submit"
           className="mb-20"
         >
-          ایجاد پست
+          {post?.id ? "ویرایش" : "ایجاد پست"}
         </Button>
       </div>
     </form>

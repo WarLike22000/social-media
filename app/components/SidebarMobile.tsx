@@ -1,12 +1,14 @@
 "use client"
 
+import React from 'react'
+import Link from 'next/link'
+
 import { User } from '@prisma/client'
 import { Avatar } from 'antd'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React from 'react'
 import { GrHomeRounded } from 'react-icons/gr'
 import { LuImagePlus } from 'react-icons/lu'
+import { IoBookmarkOutline } from "react-icons/io5";
 
 interface SidebarDesktopProps {
   currentUser?: User | null;
@@ -27,10 +29,16 @@ const SidebarMobile: React.FC<SidebarDesktopProps> = ({
     },
     {
         label: "ایجاد پست",
-        icon: <LuImagePlus size={23} className={`group-hover:text-white ${pathname === "/create" ? "text-white" : "text-purple"}`} />,
-        href: "/create",
-        active: pathname === "/create"
+        icon: <LuImagePlus size={23} className={`group-hover:text-white ${pathname === "/create/new" ? "text-white" : "text-purple"}`} />,
+        href: "/create/new",
+        active: pathname === "/create/new"
     },
+    {
+      label: "ذخیره ها",
+      icon: <IoBookmarkOutline size={23} className={`group-hover:text-white ${pathname === "/save" ? "text-white" : "text-purple"}`} />,
+      href: "/save",
+      active: pathname === "/save"
+  },
 ]
   
   return (

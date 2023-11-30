@@ -7,6 +7,7 @@ import AvatarBox from './AvatarBox';
 import { GrHomeRounded } from "react-icons/gr";
 import { LuImagePlus } from "react-icons/lu";
 import { HiOutlineLogout } from "react-icons/hi";
+import { IoBookmarkOutline } from "react-icons/io5";
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { User } from '@prisma/client';
@@ -30,9 +31,15 @@ const SidebarDesktop: React.FC<SidebarDesktopProps> = ({
         },
         {
             label: "ایجاد پست",
-            icon: <LuImagePlus size={23} className={`group-hover:text-white ${pathname === "/create" ? "text-white" : "text-purple"}`} />,
-            href: "/create",
-            active: pathname === "/create"
+            icon: <LuImagePlus size={23} className={`group-hover:text-white ${pathname === "/create/new" ? "text-white" : "text-purple"}`} />,
+            href: "/create/new",
+            active: pathname === "/create/new"
+        },
+        {
+            label: "ذخیره ها",
+            icon: <IoBookmarkOutline size={23} className={`group-hover:text-white ${pathname === "/save" ? "text-white" : "text-purple"}`} />,
+            href: "/save",
+            active: pathname === "/save"
         },
     ]
     

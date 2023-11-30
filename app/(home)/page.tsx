@@ -1,5 +1,6 @@
 import getAllUser from "../actions/getAllUser";
 import getCurrentUser from "../actions/getCurrentUser";
+import Empty from "../components/Empty";
 import CardPost from "./components/CardPost";
 import prisma from "@/app/libs/prismadb";
 
@@ -16,6 +17,10 @@ export default async function Home() {
       user: true
     }
   })
+  
+  if(posts.length === 0) {
+    return <Empty text="پستی وجود ندارد" />
+  }
   
   return (
     <div className="bg-dark w-full overflow-y-auto max-md:mb-16">

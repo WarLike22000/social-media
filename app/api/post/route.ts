@@ -9,7 +9,7 @@ export async function POST(request: Request) {
         const { caption, photos, location, tags} = body;
 
         if(!currentUser) {
-            return new NextResponse("Unauthenticated", { status: 401 })
+            return new NextResponse("Unauthenticated", { status: 400 })
         }
 
         const post = await prisma.post.create({
