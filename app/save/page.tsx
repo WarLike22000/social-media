@@ -1,11 +1,10 @@
-import React from 'react'
-import CardPost from '../(home)/components/CardPost'
+import CardPost from '../components/CardPost'
 import getCurrentUser from '../actions/getCurrentUser'
 import getAllUser from '../actions/getAllUser';
 import prisma from "@/app/libs/prismadb";
 import Empty from '../components/Empty';
 
-const SavePage = async () => {
+export default async function SavePage() {
 
     const currentUser = await getCurrentUser();
     const users = await getAllUser();
@@ -14,7 +13,10 @@ const SavePage = async () => {
     const posts = await prisma.post.findMany({
         where: {
             id: {
-                in: [...currentUser?.saves!]
+                in: currentUser?.saves
+            },
+            user: {
+              id: currentUser?.id
             }
         },
         include: {
@@ -23,7 +25,7 @@ const SavePage = async () => {
     })
     
     if(posts.length === 0) {
-      return <Empty text='چیزی ذخیره نشده' />
+      return <Empty text='پستی ذخیره نشده' />
     }
     
   return (
@@ -39,5 +41,3 @@ const SavePage = async () => {
     </div>
   )
 }
-
-export default SavePage

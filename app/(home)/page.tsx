@@ -1,7 +1,7 @@
 import getAllUser from "../actions/getAllUser";
 import getCurrentUser from "../actions/getCurrentUser";
 import Empty from "../components/Empty";
-import CardPost from "./components/CardPost";
+import CardPost from "../components/CardPost";
 import prisma from "@/app/libs/prismadb";
 
 export default async function Home() {
