@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import { User } from '@prisma/client'
@@ -19,6 +19,16 @@ const SidebarMobile: React.FC<SidebarDesktopProps> = ({
 }) => {
 
   const pathname = usePathname();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true)
+  }, []);
+
+  if(!mounted) {
+    return null
+  }
   
   const routes = [
     {
@@ -42,7 +52,7 @@ const SidebarMobile: React.FC<SidebarDesktopProps> = ({
 ]
   
   return (
-    <div className='flex md:hidden fixed bottom-0 w-full bg-dark border-t z-10'>
+    <div className='flex md:hidden w-full bg-dark border-t mt-auto'>
       <div className='p-2 w-full flex items-center justify-between gap-2'>
         {routes.map((route) => (
           <Link

@@ -45,7 +45,7 @@ const CardPost: React.FC<CardPostProps> = ({
   
   const handleDelete = async () => {
     try {
-      await axios.delete(`/api/post/${post.id}`)
+      await axios.delete(`/api/post/${post?.id}`)
       .then(() => {
         toast.success("پست با موفقیت حذف شد")
         router.refresh()
@@ -58,7 +58,7 @@ const CardPost: React.FC<CardPostProps> = ({
   const items: MenuProps['items'] = [
     {
       icon: <LuImagePlus className="text-sky-600" size={19} />,
-      label: <Link className="font-vazir" href={`/create/${post.id}`}>ویرایش پست</Link>,
+      label: <Link className="font-vazir" href={`/create/${post?.id}`}>ویرایش پست</Link>,
       key: '0',
     },
     {
@@ -75,19 +75,19 @@ const CardPost: React.FC<CardPostProps> = ({
   
   const router = useRouter();
   
-  const isLiked = currentUser?.likedPost.find((id) => id == post.id)
-  const postLiked = users.filter((user) => user.likedPost.find((id) => id == post.id))
-  const postSaved = users.filter((user) => user.saves.find((id) => id == post.id))
+  const isLiked = currentUser?.likedPost.find((id) => id == post?.id)
+  const postLiked = users.filter((user) => user.likedPost.find((id) => id == post?.id))
+  const postSaved = users.filter((user) => user.saves.find((id) => id == post?.id))
   
   const likeHandler = async () => {
     try {
       
       if(!isLiked) {
-        await axios.patch(`/api/favorite/${post.id}`, {
+        await axios.patch(`/api/favorite/${post?.id}`, {
           status: "add"
         })
       } else {
-        await axios.patch(`/api/favorite/${post.id}`, {
+        await axios.patch(`/api/favorite/${post?.id}`, {
           status: "remove"
         })
       }
@@ -100,11 +100,11 @@ const CardPost: React.FC<CardPostProps> = ({
   const handleSave = async () => {
     try {
       if(postSaved.length === 0) {
-        await axios.patch(`/api/save/${post.id}`, {
+        await axios.patch(`/api/save/${post?.id}`, {
           status: "add"
         })
       } else {
-        await axios.patch(`/api/save/${post.id}`, {
+        await axios.patch(`/api/save/${post?.id}`, {
           status: "remove"
         })
       }
@@ -116,11 +116,11 @@ const CardPost: React.FC<CardPostProps> = ({
   
   return (
     <div className="text-white p-4 lg:p-8">
-      <div className="border-[1px] rounded-lg space-y-3 bg-darkGray w-full max-w-2xl p-2 lg:p-4">
+      <div className="border-[1px] rounded-lg space-y-3 bg-darkGray w-full max-w-xl p-2 lg:p-4">
         <div className="flex items-center px-2 justify-between">
-          <AvatarBox user={post.user} />
+          <AvatarBox user={post?.user} />
           <div className="cursor-pointer text-white transition hover:text-purple">
-            {currentUser?.id == post.user.id && (
+            {currentUser?.id == post?.user?.id && (
               <Dropdown  className="bg-darkGray" menu={{ items }} placement='bottomLeft' trigger={[ "click" ]}>
                 <GoKebabHorizontal size={22} />
               </Dropdown>
@@ -128,25 +128,27 @@ const CardPost: React.FC<CardPostProps> = ({
           </div>
         </div>
 
-        <Carousel>
-          {post.photo != 0 && (
-            post.photo.map((photo: string) => (
-              <div className="max-h-96 overflow-hidden rounded-lg mx-auto">
-                <Image
-                  src={photo}
-                  width={700}
-                  height={700}
-                  className="object-cover"
-                  alt='postImage'
-                />
-              </div>
-            ))
-          )}
-        </Carousel>
+        <div className="mx-auto h-fit overflow-hidden rounded-lg">
+          <Carousel dots={{className: "bg-purple/30 p-2 rounded-r-lg w-fit mx-auto"}}>
+            {post?.photo != 0 && (
+              post?.photo.map((photo: string) => (
+                <div>
+                  <Image
+                    src={photo}
+                    width={600}
+                    height={600}
+                    className="object-cover"
+                    alt='postImage'
+                  />
+                </div>
+              ))
+            )}
+          </Carousel>
+        </div>
 
         <div className="flex items-center justify-between">
           <div onClick={handleSave} className="text-white hover:text-purple transition cursor-pointer">
-            {currentUser?.saves.includes(post.id) ? 
+            {currentUser?.saves.includes(post?.id) ? 
             <IoBookmark size={23} /> : 
             <IoBookmarkOutline size={23} />}
           </div>
@@ -156,7 +158,7 @@ const CardPost: React.FC<CardPostProps> = ({
               <span className="text-sm">
                 {postLiked.length}
               </span>
-               {currentUser?.likedPost.includes(post.id) ? 
+               {currentUser?.likedPost.includes(post?.id) ? 
                 <GoHeartFill  size={23} className="text-rose-700 hover:text-rose-500 transition cursor-pointer" />: 
                 <GoHeart  size={23} className="text-rose-700 hover:text-rose-500 transition cursor-pointer" />
                }
@@ -167,19 +169,19 @@ const CardPost: React.FC<CardPostProps> = ({
         <div className="flex gap-2">
           <FaLocationDot size={15} />
           <p className="text-sm">
-            {post.location}
+            {post?.location}
           </p>
         </div>
 
         <div>
           <p className="text-white text-base mt-2">
-            {post.caption}
+            {post?.caption}
           </p>
         </div>
 
-        {post.tags && (
+        {post?.tags && (
           <div className="flex flex-wrap gap-2 items-center text-sky-500 cursor-pointer">
-            {post.tags.split("#").map((tag: string) => (
+            {post?.tags.split("#").map((tag: string) => (
               <p>
                 {tag}#
               </p>
