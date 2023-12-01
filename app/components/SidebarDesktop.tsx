@@ -47,7 +47,9 @@ const SidebarDesktop: React.FC<SidebarDesktopProps> = ({
     <div className="hidden md:flex h-[100vh] w-full max-w-[250px] bg-darkGray">
         <div className="w-full h-full p-3 text-white">
             <div className="flex flex-col gap-5 h-full">
-                <AvatarBox user={currentUser} />
+                <Link href={`/profile`}>
+                    <AvatarBox user={currentUser} />
+                </Link>
                 
                 <div className="flex flex-col gap-3">
                     {routes.map((route) => (

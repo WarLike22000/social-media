@@ -58,9 +58,9 @@ const SidebarMobile: React.FC<SidebarDesktopProps> = ({
           </Link>
         ))}
 
-        <div className="cursor-pointer">
+        <Link href={`/profile`} className="cursor-pointer">
           <Avatar src={currentUser?.image || "/images/placeholder.jpg"} size={'large'}  />
-        </div>
+        </Link>
       </div>
     </div>
   )

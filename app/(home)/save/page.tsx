@@ -1,8 +1,8 @@
-import CardPost from '../components/CardPost'
-import getCurrentUser from '../actions/getCurrentUser'
-import getAllUser from '../actions/getAllUser';
+import CardPost from '../../components/CardPost'
+import getCurrentUser from '../../actions/getCurrentUser'
+import getAllUser from '../../actions/getAllUser';
 import prisma from "@/app/libs/prismadb";
-import Empty from '../components/Empty';
+import Empty from '../../components/Empty';
 
 export default async function SavePage() {
 

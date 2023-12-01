@@ -1,5 +1,5 @@
 import React from 'react'
-import PostForm from '../components/PostForm'
+import PostForm from './components/PostForm'
 import prisma from "@/app/libs/prismadb";
 
 const UpdatePage = async ({
