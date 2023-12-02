@@ -55,14 +55,19 @@ const PostForm: React.FC<PostFormProps> = ({
 
       if(post?.id) {
         await axios.patch(`/api/post/${post.id}`, data)
-        router.refresh();
-        router.push("/");
-        toast.success("پست با موفقیت ویرایش شد")
+        .then(() => {
+          router.refresh();
+          router.push("/");
+          toast.success("پست با موفقیت ویرایش شد")
+        })
+        
       } else {
         await axios.post("/api/post", data)
-        router.refresh();
-        router.push("/");
-        toast.success("پست با موفقیت ایجاد شد")
+        .then(() => {
+          router.refresh();
+          router.push("/");
+          toast.success("پست با موفقیت ایجاد شد")
+        })
       }
       
     } catch (error) {
