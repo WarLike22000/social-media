@@ -52,7 +52,7 @@ const SidebarMobile: React.FC<SidebarDesktopProps> = ({
 ]
   
   return (
-    <div className='flex md:hidden w-full bg-dark border-t mt-auto'>
+    <div className='flex md:hidden w-full bg-dark border-t mt-auto overflow-y-hidden p-4'>
       <div className='p-2 w-full flex items-center justify-between gap-2'>
         {routes.map((route) => (
           <Link
