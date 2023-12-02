@@ -15,12 +15,14 @@ interface ProfileProps {
     currentUser?: any
     users: User[];
     likedPost: Post[];
+    usersFollower?: User[] | null;
 }
 
 const Profile: React.FC<ProfileProps> = ({
     currentUser,
     users,
-    likedPost
+    likedPost,
+    usersFollower
 }) => {
 
     const [mounted, setMounted] = useState(false);
@@ -60,7 +62,7 @@ const Profile: React.FC<ProfileProps> = ({
                         </div>
                         <div className="flex gap-2">
                             <span>دنبال کننده ها</span>
-                            <span className="text-purple">{currentUser?.followers.length}</span>
+                            <span className="text-purple">{usersFollower?.length}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>دنبال شونده ها</span>

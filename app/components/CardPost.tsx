@@ -5,20 +5,21 @@ import AvatarBox from '@/app/components/AvatarBox'
 import Image from 'next/image';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
+import Button from './Button';
 
 import { GoKebabHorizontal } from "react-icons/go";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import { FiMessageCircle } from "react-icons/fi";
 import { LuImagePlus } from "react-icons/lu";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaPlus } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { Post, User } from '@prisma/client'
 import { useRouter } from 'next/navigation';
 import { Carousel } from 'antd';
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
-import Link from 'next/link';
 
 interface CardPostProps {
   post: any;
@@ -34,6 +35,8 @@ const CardPost: React.FC<CardPostProps> = ({
 }) => {
 
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setMounted(true)
@@ -42,6 +45,7 @@ const CardPost: React.FC<CardPostProps> = ({
   if(!mounted) {
     return null
   }
+  
   
   const handleDelete = async () => {
     try {
@@ -72,8 +76,7 @@ const CardPost: React.FC<CardPostProps> = ({
       key: '1',
     },
   ];
-  
-  const router = useRouter();
+
   
   const isLiked = currentUser?.likedPost.find((id) => id == post?.id)
   const postLiked = users.filter((user) => user.likedPost.find((id) => id == post?.id))
@@ -113,6 +116,23 @@ const CardPost: React.FC<CardPostProps> = ({
       toast.error("save failed")
     }
   }
+
+  const followHandler = async () => {
+    try {
+      setIsLoading(true);
+
+      await axios.patch("/api/follow", {
+        userId: post?.user?.id
+      })
+      .then(() => {
+        router.refresh();
+      })
+    } catch (error) {
+      toast.error("دنبال کردن با شکست مواجه شد")
+    } finally {
+      setIsLoading(false);
+    }
+  }
   
   return (
     <div className="text-white p-4 lg:p-8">
@@ -126,6 +146,16 @@ const CardPost: React.FC<CardPostProps> = ({
               </Dropdown>
             )}
           </div>
+          {
+            currentUser?.id != post?.user?.id && !currentUser?.following.includes(post?.user?.id) && (
+              <div>
+                <Button onClick={followHandler} disabled={isLoading} purple className="flex items-center gap-2">
+                  دنبال کردن
+                  <FaPlus />
+                </Button>
+              </div>
+            )
+          }
         </div>
 
         <div className="mx-auto h-fit overflow-hidden rounded-lg">

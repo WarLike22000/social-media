@@ -21,11 +21,19 @@ const ProfilePage = async () => {
     include: {
         user: true
     }
-})
+  })
+
+  const usersFollower = await prisma.user.findMany({
+    where: {
+      following: {
+        has: currentUser?.id!
+      }
+    }
+  })
   
   return (
     <div className="w-full h-[100vh] overflow-y-auto mb-2">
-      <Profile currentUser={currentUser} users={users} likedPost={likedPost} />
+      <Profile currentUser={currentUser} users={users} likedPost={likedPost} usersFollower={usersFollower} />
     </div>
   )
 }
