@@ -29,7 +29,7 @@ export default async function SavePage() {
     }
     
   return (
-    <div className="bg-dark w-full overflow-y-auto mb-6">
+    <div className="bg-dark w-full overflow-y-auto mb-2">
       {posts.map((post) => (
         <CardPost
           key={post.id}

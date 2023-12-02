@@ -129,7 +129,7 @@ const CardPost: React.FC<CardPostProps> = ({
         </div>
 
         <div className="mx-auto h-fit overflow-hidden rounded-lg">
-          <Carousel dots={{className: "bg-purple/30 p-2 rounded-r-lg w-fit mx-auto"}}>
+          <Carousel className="outline-none" dots={{className: "bg-purple/30 p-2 rounded-r-lg w-fit mx-auto"}}>
             {post?.photo != 0 && (
               post?.photo.map((photo: string) => (
                 <div>
@@ -181,7 +181,7 @@ const CardPost: React.FC<CardPostProps> = ({
 
         {post?.tags && (
           <div className="flex flex-wrap gap-2 items-center text-sky-500 cursor-pointer">
-            {post?.tags.split("#").map((tag: string) => (
+            {post?.tags.split("،").map((tag: string) => (
               <p>
                 {tag}#
               </p>

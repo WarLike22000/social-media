@@ -5,7 +5,6 @@ import Button from "./Button";
 
 import { useState, useEffect } from "react";
 import { BiTrashAlt } from "react-icons/bi";
-import { LuImagePlus } from "react-icons/lu";
 import { CldUploadWidget } from "next-cloudinary";
 
 interface ImageUploadProps {
@@ -13,13 +12,19 @@ interface ImageUploadProps {
     onChange: (value: string) => void;
     onRemove: (value: string) => void;
     value: string[];
+    icon?: React.ReactElement;
+    text?: string;
+    showImage: boolean;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
     disabled,
     onChange,
     onRemove,
-    value
+    value,
+    icon,
+    text,
+    showImage
 }) => {
 
     const [isMounted, setIsMounted] = useState(false);
@@ -38,7 +43,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     
     return ( 
         <div>
-            <div className="mb-4 flex flex-wrap items-center gap-4">
+            {
+                showImage && (
+                    <div className="mb-4 flex flex-wrap items-center gap-4">
                 {value.map((url) => (
                     <div key={url} className="relative w-[200px] h-[200px] rounded-md overflow-hidden">
                         <div className="z-10 absolute top-2 right-2">
@@ -60,6 +67,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     </div>
                 ))}
             </div>
+                )
+            }
 
             <CldUploadWidget onUpload={onUpload} uploadPreset="c1m25jbg">
                 {({open}) => {
@@ -76,8 +85,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                             onClick={onClick}
                             className="flex items-center gap-1"
                         >
-                            <LuImagePlus size={20} />
-                            انتخاب عکس
+                            {icon}
+                            {text}
                         </Button>
                     )
                 }}

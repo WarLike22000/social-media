@@ -10,6 +10,7 @@ export const config = {
     matcher: [
         "/",
         "/create",
-        "/save"
+        "/save",
+        "/profile"
     ]
 }

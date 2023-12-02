@@ -52,7 +52,7 @@ const SidebarMobile: React.FC<SidebarDesktopProps> = ({
 ]
   
   return (
-    <div className='flex md:hidden w-full bg-dark border-t mt-auto overflow-y-hidden p-4'>
+    <div className='flex md:hidden fixed bottom-0 w-full bg-darkGray border-t mt-auto overflow-y-hidden'>
       <div className='p-2 w-full flex items-center justify-between gap-2'>
         {routes.map((route) => (
           <Link
@@ -68,7 +68,7 @@ const SidebarMobile: React.FC<SidebarDesktopProps> = ({
           </Link>
         ))}
 
-        <Link href={`/profile`} className="cursor-pointer">
+        <Link href={`/profile`} className={`cursor-pointer ${pathname === "/profile" && "ring ring-white rounded-full"}`}>
           <Avatar src={currentUser?.image || "/images/placeholder.jpg"} size={'large'}  />
         </Link>
       </div>

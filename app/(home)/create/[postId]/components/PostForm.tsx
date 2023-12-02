@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm, SubmitHandler, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
+import { LuImagePlus } from "react-icons/lu";
 
 
 interface PostFormProps {
@@ -53,7 +54,6 @@ const PostForm: React.FC<PostFormProps> = ({
       setIsLoading(true);
 
       if(post?.id) {
-        console.log("working")
         await axios.patch(`/api/post/${post.id}`, data)
         router.refresh();
         router.push("/");
@@ -108,6 +108,9 @@ const PostForm: React.FC<PostFormProps> = ({
               onChange={(url) => setValue("photos", [...photos, url])}
               onRemove={(url) => setValue("photos", filteredImage(url))}
               disabled={isLoading}
+              icon={<LuImagePlus size={20} />}
+              text=" انتخاب عکس"
+              showImage={true}
             />
         </div>
         <div className="space-y-2 flex flex-col max-w-lg">
@@ -120,6 +123,7 @@ const PostForm: React.FC<PostFormProps> = ({
         </div>
         <div className="space-y-2">
           <label htmlFor="tags" className="text-white text-xl">تگ ها</label>
+          <p className="text-sm text-white">تگ ها را با ( ، ) از هم جدا کنید</p>
           <Controller
             render={({ field }) => (
               <Input

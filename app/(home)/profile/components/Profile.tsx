@@ -2,11 +2,14 @@
 
 import Image from 'next/image';
 import Button from '@/app/components/Button';
+import TabBar from './TabBar';
 
 import { Post, User } from '@prisma/client';
 import { FaRegEdit } from "react-icons/fa";
-import TabBar from './TabBar';
 import { useEffect, useState } from 'react';
+import { HiOutlineLogout } from "react-icons/hi";
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 interface ProfileProps {
     currentUser?: any
@@ -67,12 +70,17 @@ const Profile: React.FC<ProfileProps> = ({
                 </div>
             </div>
 
-            <div className="my-4">
-                <Button className='flex items-center justify-center gap-2' purple>
-                    <p>
-                    ویرایش پروفایل
-                    </p>
-                    <FaRegEdit size={15} />
+            <div className="my-4 flex items-center gap-2">
+                <Button purple>
+                    <Link className='flex items-center justify-center gap-2' href="/profile/update-user">
+                        <p>
+                        ویرایش پروفایل
+                        </p>
+                        <FaRegEdit size={15} />
+                    </Link>
+                </Button>
+                <Button onClick={() => signOut()} className='flex items-center justify-center gap-2' red>
+                    <HiOutlineLogout size={20} />
                 </Button>
             </div>
         </div>

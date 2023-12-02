@@ -17,7 +17,9 @@ const Sidebar: React.FC<SidebarProps> = async ({
     <div className="flex flex-col md:flex-row w-full h-[100vh]">
       <SidebarDesktop currentUser={currentUser} />
       {children}
-      <SidebarMobile currentUser={currentUser} />
+      <div className="mt-16">
+        <SidebarMobile currentUser={currentUser} />
+      </div>
     </div>
   )
 }

@@ -24,7 +24,7 @@ const ProfilePage = async () => {
 })
   
   return (
-    <div className="w-full h-[100vh] overflow-y-auto mb-6">
+    <div className="w-full h-[100vh] overflow-y-auto mb-2">
       <Profile currentUser={currentUser} users={users} likedPost={likedPost} />
     </div>
   )
