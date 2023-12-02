@@ -33,7 +33,9 @@ const RegisterForm = () => {
     formState: {
       errors
     },
-    handleSubmit
+    handleSubmit,
+    watch,
+    setError
   } = useForm<FieldValues>({
     defaultValues: {
       username: "",
@@ -44,7 +46,10 @@ const RegisterForm = () => {
   })
 
 
-  //functions
+  const username = watch("username");
+  const email = watch("email");
+  const passwordFirst = watch("password");
+  const repeatPassword = watch("repeatPassword");
 
   const PrevStep = () => {
     setStep((prevStep) => prevStep - 1)
@@ -57,6 +62,13 @@ const RegisterForm = () => {
         try {
           setIsLoading(true);
 
+          if(passwordFirst !== repeatPassword) {
+            setError("repeatPassword", {
+              message: "رمز ها با هم مطابقت ندارند"
+            })
+            return null;
+          }
+          
           const { username, email, password } = data;
           
           await axios.post("/api/register", {
@@ -105,6 +117,7 @@ const RegisterForm = () => {
                           required
                           disabled={isLoading}
                           type="text"
+                          value={username}
                       />
                       <Input
                           label="ایمیل"
@@ -114,6 +127,7 @@ const RegisterForm = () => {
                           required
                           disabled={isLoading}
                           type="email"
+                          value={email}
                       />
                   </div>
 
@@ -174,20 +188,22 @@ const RegisterForm = () => {
                           VisibilityOn={<MdOutlineVisibility className="text-white" size={20} />}
                           onClickIcon={(value) => setShowPassword(!value)}
                           showPassword={showPassword}
+                          value={passwordFirst}
                       />
-                      <Input
-                          label="تکرار رمز عبور"
-                          id="repeatPassword"
-                          register={register}
-                          errors={errors}
-                          required
-                          disabled={isLoading}
-                          type={showPassword ? "text" : "password"}
-                          VisibilityOff={<MdOutlineVisibilityOff className="text-white" size={20} />}
-                          VisibilityOn={<MdOutlineVisibility className="text-white" size={20} />}
-                          onClickIcon={(value) => setShowPassword(!value)}
-                          showPassword={showPassword}
-                      />
+                        <Input
+                            label="تکرار رمز عبور"
+                            id="repeatPassword"
+                            register={register}
+                            errors={errors}
+                            required
+                            disabled={isLoading}
+                            type={showPassword ? "text" : "password"}
+                            VisibilityOff={<MdOutlineVisibilityOff className="text-white" size={20} />}
+                            VisibilityOn={<MdOutlineVisibility className="text-white" size={20} />}
+                            onClickIcon={(value) => setShowPassword(!value)}
+                            showPassword={showPassword}
+                            value={repeatPassword}
+                        />
                   </div>
 
                   <div className="w-full">

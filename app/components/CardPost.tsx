@@ -129,10 +129,10 @@ const CardPost: React.FC<CardPostProps> = ({
         </div>
 
         <div className="mx-auto h-fit overflow-hidden rounded-lg">
-          <Carousel className="outline-none" dots={{className: "bg-purple/30 p-2 rounded-r-lg w-fit mx-auto"}}>
+          <Carousel swipeToSlide draggable className="outline-none w-full h-full" dots={{className: "bg-purple/30 p-2 rounded-r-lg w-fit mx-auto"}}>
             {post?.photo != 0 && (
               post?.photo.map((photo: string) => (
-                <div>
+                <div className="w-full h-full">
                   <Image
                     src={photo}
                     width={600}
