@@ -23,13 +23,17 @@ const ProfilePage = async () => {
     }
   })
 
-  const usersFollower = await prisma.user.findMany({
-    where: {
-      following: {
-        has: currentUser?.id!
+  let usersFollower;
+  
+  if(currentUser) {
+    usersFollower = await prisma.user.findMany({
+      where: {
+        following: {
+          has: currentUser?.id
+        }
       }
-    }
-  })
+    })
+  }
   
   return (
     <div className="w-full h-[100vh] overflow-y-auto mb-2">
