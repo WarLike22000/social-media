@@ -17,9 +17,7 @@ import { FaTrash, FaPlus } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { Post, User } from '@prisma/client'
 import { useRouter } from 'next/navigation';
-import { Carousel } from 'antd';
-import type { MenuProps } from 'antd';
-import { Dropdown } from 'antd';
+import { Carousel, MenuProps, Dropdown } from 'antd';
 
 interface CardPostProps {
   post: any;
@@ -135,91 +133,92 @@ const CardPost: React.FC<CardPostProps> = ({
   }
   
   return (
-    <div className="text-white p-4 lg:p-8">
-      <div className="border-[1px] rounded-lg space-y-3 bg-darkGray w-full max-w-xl p-2 lg:p-4">
-        <div className="flex items-center px-2 justify-between">
-          <AvatarBox user={post?.user} />
-          <div className="cursor-pointer text-white transition hover:text-purple">
-            {currentUser?.id == post?.user?.id && (
-              <Dropdown  className="bg-darkGray" menu={{ items }} placement='bottomLeft' trigger={[ "click" ]}>
-                <GoKebabHorizontal size={22} />
-              </Dropdown>
-            )}
-          </div>
-          {
-            currentUser?.id != post?.user?.id && !currentUser?.following.includes(post?.user?.id) && (
-              <div>
-                <Button onClick={followHandler} disabled={isLoading} purple className="flex items-center gap-2">
-                  دنبال کردن
-                  <FaPlus />
-                </Button>
-              </div>
-            )
-          }
-        </div>
-
-        <div className="mx-auto h-fit overflow-hidden rounded-lg">
-          <Carousel swipeToSlide draggable className="outline-none w-full h-full" dots={{className: "bg-purple/30 p-2 rounded-r-lg w-fit mx-auto"}}>
-            {post?.photo != 0 && (
-              post?.photo.map((photo: string) => (
-                <div className="w-full h-full">
-                  <Image
-                    src={photo}
-                    width={600}
-                    height={600}
-                    className="object-cover"
-                    alt='postImage'
-                  />
+    <>
+      <div className="text-white p-4 lg:p-8">
+        <div className="border-[1px] rounded-lg space-y-3 bg-darkGray w-full max-w-xl p-2 lg:p-4">
+          <div className="flex items-center px-2 justify-between">
+            <AvatarBox user={post?.user} />
+            <div className="cursor-pointer text-white transition hover:text-purple">
+              {currentUser?.id == post?.user?.id && (
+                <Dropdown  className="bg-darkGray" menu={{ items }} placement='bottomLeft' trigger={[ "click" ]}>
+                  <GoKebabHorizontal size={22} />
+                </Dropdown>
+              )}
+            </div>
+            {
+              currentUser?.id != post?.user?.id && !currentUser?.following.includes(post?.user?.id) && (
+                <div>
+                  <Button onClick={followHandler} disabled={isLoading} purple className="flex items-center gap-2">
+                    دنبال کردن
+                    <FaPlus />
+                  </Button>
                 </div>
-              ))
-            )}
-          </Carousel>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div onClick={handleSave} className="text-white hover:text-purple transition cursor-pointer">
-            {currentUser?.saves.includes(post?.id) ? 
-            <IoBookmark size={23} /> : 
-            <IoBookmarkOutline size={23} />}
+              )
+            }
           </div>
-          <div className="flex items-center gap-3">
-            <FiMessageCircle className="text-white hover:text-sky-700 transition cursor-pointer" size={23} />
-            <div onClick={likeHandler} className="flex items-center gap-1">
-              <span className="text-sm">
-                {postLiked.length}
-              </span>
-               {currentUser?.likedPost.includes(post?.id) ? 
-                <GoHeartFill  size={23} className="text-rose-700 hover:text-rose-500 transition cursor-pointer" />: 
-                <GoHeart  size={23} className="text-rose-700 hover:text-rose-500 transition cursor-pointer" />
-               }
+
+          <div className="mx-auto h-fit overflow-hidden rounded-lg">
+            <Carousel swipeToSlide draggable className="outline-none w-full h-full" dots={{className: "bg-purple/30 p-2 rounded-r-lg w-fit mx-auto"}}>
+              {post?.photo != 0 && (
+                post?.photo.map((photo: string) => (
+                  <div className="w-full h-full">
+                    <Image
+                      src={photo}
+                      width={600}
+                      height={600}
+                      className="object-cover"
+                      alt='postImage'
+                    />
+                  </div>
+                ))
+              )}
+            </Carousel>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div onClick={handleSave} className="text-white hover:text-purple transition cursor-pointer">
+              {currentUser?.saves.includes(post?.id) ? 
+              <IoBookmark size={23} /> : 
+              <IoBookmarkOutline size={23} />}
+            </div>
+            <div className="flex items-center gap-3">
+              <div onClick={likeHandler} className="flex items-center gap-1">
+                <span className="text-sm">
+                  {postLiked.length}
+                </span>
+                {currentUser?.likedPost.includes(post?.id) ? 
+                  <GoHeartFill  size={23} className="text-rose-700 hover:text-rose-500 transition cursor-pointer" />: 
+                  <GoHeart  size={23} className="text-rose-700 hover:text-rose-500 transition cursor-pointer" />
+                }
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex gap-2">
-          <FaLocationDot size={15} />
-          <p className="text-sm">
-            {post?.location}
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white text-base mt-2">
-            {post?.caption}
-          </p>
-        </div>
-
-        {post?.tags && (
-          <div className="flex flex-wrap gap-2 items-center text-sky-500 cursor-pointer">
-            {post?.tags.split("،").map((tag: string) => (
-              <p>
-                {tag}#
-              </p>
-            ))}
+          <div className="flex gap-2">
+            <FaLocationDot size={15} />
+            <p className="text-sm">
+              {post?.location}
+            </p>
           </div>
-        )}
+
+          <div>
+            <p className="text-white text-base mt-2">
+              {post?.caption}
+            </p>
+          </div>
+
+          {post?.tags && (
+            <div className="flex flex-wrap gap-2 items-center text-sky-500 cursor-pointer">
+              {post?.tags.split("،").map((tag: string) => (
+                <p>
+                  {tag}#
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
